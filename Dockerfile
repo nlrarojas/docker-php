@@ -14,6 +14,7 @@ RUN docker-php-source extract \
        make \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
+    && docker-php-ext-configure bcmath \
     && docker-php-ext-configure json \
     && docker-php-ext-configure session \
     && docker-php-ext-configure ctype \
@@ -29,7 +30,8 @@ RUN docker-php-source extract \
     && docker-php-ext-configure pdo_mysql \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-source delete
-RUN docker-php-ext-install json \
+RUN docker-php-ext-install bcmath \
+    json \
     session \
     ctype \
     tokenizer \
