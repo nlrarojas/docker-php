@@ -35,8 +35,7 @@ RUN docker-php-source extract \
       --with-png-dir=/usr/include/ \
     && docker-php-source delete
 
-RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
-  docker-php-ext-install -j$(NPROC) bcmath \
+RUN docker-php-ext-install bcmath \
     json \
     session \
     ctype \
