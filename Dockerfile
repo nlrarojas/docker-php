@@ -51,7 +51,7 @@ RUN docker-php-ext-install bcmath \
     xml \
     opcache \
     pdo \
-    pdo_mysql \
+    pdo_mysql
 RUN apk update \
     && apk add ca-certificates wget \
     && update-ca-certificates
