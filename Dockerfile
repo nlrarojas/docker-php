@@ -4,7 +4,9 @@ ENV XDEBUG_VERSION 2.3.3
 RUN docker-php-source extract \
     && apk --no-cache --update add \
        libxml2-dev \
+       libpng \
        libpng-dev \
+       libjpeg-turbo \
        libjpeg-turbo-dev \
        freetype-dev \
        curl \
@@ -28,9 +30,11 @@ RUN docker-php-source extract \
     && docker-php-ext-configure opcache \
     && docker-php-ext-configure pdo \
     && docker-php-ext-configure pdo_mysql \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ \
+      --with-jpeg-dir=/usr/include/ \
+      --with-png-dir=/usr/include/ \
     && docker-php-source delete
-RUN docker-php-ext-install bcmath \
+RUN docker-php-ext-install -j$(nproc) bcmath \
     json \
     session \
     ctype \
