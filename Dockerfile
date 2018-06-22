@@ -1,6 +1,9 @@
 FROM php:7-fpm-alpine
 
 ENV XDEBUG_VERSION 2.3.3
+ENV PHP_MEMORY_LIMIT 256M
+ENV PHP_MAX_EXECUTION_TIME 120
+
 RUN docker-php-source extract \
     && apk --no-cache --update add \
        libxml2-dev \
@@ -58,10 +61,21 @@ RUN apk update \
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
+# Xdebug settings.
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Install mhsendmail
+RUN apk update && apk add \
+     go \
+     git
+RUN mkdir /root/go
+ENV GOPATH=/root/go
+ENV PATH=$PATH:$GOPATH/bin
+RUN go get github.com/mailhog/mhsendmail
+RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
+COPY ./php.ini /usr/local/etc/php/conf.d/docker-php.ini
+
 # Cleanup
 RUN rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && rm -rf tmp/*
-
-# Xdebug settings.
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
