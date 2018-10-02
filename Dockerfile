@@ -5,7 +5,7 @@ ENV PHP_MEMORY_LIMIT 256M
 ENV PHP_MAX_EXECUTION_TIME 120
 ENV PHP_POST_MAX_SIZE 100M
 ENV PHP_UPLOAD_MAX_FILESIZE 100M
-ENV PHP_INI_DIR php.ini
+ENV PHP_INI_DIR /usr/local/etc/php/conf.d
 
 RUN docker-php-source extract \
     && apk --no-cache --update add \
