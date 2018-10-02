@@ -17,3 +17,4 @@ PHP Image containing some useful extensions.
 - gd
 - xdebug
 - mhsendmail
+- blackfire
