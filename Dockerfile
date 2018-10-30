@@ -58,33 +58,6 @@ RUN docker-php-ext-install bcmath \
     opcache \
     pdo \
     pdo_mysql
-RUN apk update \
-    && apk add ca-certificates wget \
-    && update-ca-certificates
-RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
-    && mkdir -p /tmp/blackfire \
-    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
-    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
-    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
-    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
-
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-
-# Xdebug settings.
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Install mhsendmail
-RUN apk update && apk add \
-     go \
-     git
-RUN mkdir /root/go
-ENV GOPATH=/root/go
-ENV PATH=$PATH:$GOPATH/bin
-RUN go get github.com/mailhog/mhsendmail
-RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
-COPY ./php.ini /usr/local/etc/php/conf.d/docker-php.ini
 
 # Cleanup
 RUN rm -rf /tmp/* \
