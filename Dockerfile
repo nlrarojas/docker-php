@@ -72,6 +72,12 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
+# Imagemagick.
+RUN apk update apk && apk add imagemagick-dev libtool
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+RUN apk add --no-cache --virtual .imagick-runtime-deps imagemagick
+
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
