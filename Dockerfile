@@ -78,7 +78,7 @@ RUN docker-php-ext-enable xdebug
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Imagemagick.
-RUN apk update && apk add imagemagick-dev libtool
+RUN apk update && apk add imagemagick-dev
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 RUN apk add --no-cache --virtual .imagick-runtime-deps imagemagick
