@@ -8,7 +8,7 @@ ENV PHP_UPLOAD_MAX_FILESIZE 100M
 ENV PHP_INI_DIR /usr/local/etc/php
 
 RUN apk update
-RUN apk add libzip
+RUN apk add --no-cache zlib-dev libzip-dev
 RUN docker-php-source extract \
     && apk --no-cache --update add \
        libxml2-dev \
@@ -33,7 +33,7 @@ RUN docker-php-source extract \
     && docker-php-ext-configure simplexml \
     && docker-php-ext-configure dom \
     && docker-php-ext-configure mbstring \
-    && docker-php-ext-configure zip \
+    && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-configure iconv \
     && docker-php-ext-configure xml \
     && docker-php-ext-configure opcache \
