@@ -7,7 +7,6 @@ ENV PHP_POST_MAX_SIZE 100M
 ENV PHP_UPLOAD_MAX_FILESIZE 100M
 ENV PHP_INI_DIR /usr/local/etc/php
 
-RUN apk update
 RUN apk add --no-cache zlib-dev libzip-dev
 RUN docker-php-source extract \
     && apk --no-cache --update add \
@@ -78,7 +77,7 @@ RUN docker-php-ext-enable xdebug
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Imagemagick.
-RUN apk update && apk add imagemagick-dev
+RUN apk add --no-cache imagemagick-dev
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 RUN apk add --no-cache --virtual .imagick-runtime-deps imagemagick
