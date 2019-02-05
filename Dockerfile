@@ -7,6 +7,7 @@ ENV PHP_POST_MAX_SIZE 100M
 ENV PHP_UPLOAD_MAX_FILESIZE 100M
 ENV PHP_INI_DIR /usr/local/etc/php
 
+RUN apk add --no-cache zlib-dev libzip-dev
 RUN docker-php-source extract \
     && apk --no-cache --update add \
        libxml2-dev \
@@ -31,7 +32,7 @@ RUN docker-php-source extract \
     && docker-php-ext-configure simplexml \
     && docker-php-ext-configure dom \
     && docker-php-ext-configure mbstring \
-    && docker-php-ext-configure zip \
+    && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-configure iconv \
     && docker-php-ext-configure xml \
     && docker-php-ext-configure opcache \
@@ -69,11 +70,17 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
-RUN pecl install xdebug
+RUN pecl install xdebug-2.7.0RC1
 RUN docker-php-ext-enable xdebug
 
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Imagemagick.
+RUN apk add --no-cache imagemagick-dev
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+RUN apk add --no-cache --virtual .imagick-runtime-deps imagemagick
 
 # Install mhsendmail
 RUN apk update && apk add \
