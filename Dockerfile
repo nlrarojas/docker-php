@@ -70,7 +70,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
-RUN pecl install xdebug
+RUN pecl install xdebug-2.7.0RC1
 RUN docker-php-ext-enable xdebug
 
 # Xdebug settings.
