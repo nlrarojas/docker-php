@@ -1,4 +1,4 @@
-FROM php:7-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 ENV XDEBUG_VERSION 2.3.3
 ENV PHP_MEMORY_LIMIT 256M
@@ -22,6 +22,7 @@ RUN docker-php-source extract \
        g++ \
        autoconf \
        make \
+       librabbitmq-dev \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && docker-php-ext-configure bcmath \
@@ -75,6 +76,10 @@ RUN docker-php-ext-enable xdebug
 
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# RabbitMQ
+RUN pecl install amqp
+RUN docker-php-ext-enable amqp
 
 # Imagemagick.
 RUN apk add --no-cache imagemagick-dev
