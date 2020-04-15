@@ -1,6 +1,6 @@
 FROM php:7.4-fpm-alpine
 
-ENV XDEBUG_VERSION 2.3.3
+ENV XDEBUG_VERSION 2.9.4
 ENV PHP_MEMORY_LIMIT 256M
 ENV PHP_MAX_EXECUTION_TIME 120
 ENV PHP_POST_MAX_SIZE 100M
@@ -66,8 +66,8 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
-RUN pecl install xdebug-2.7.0RC1
-RUN docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.9.4
+RUN docker-php-ext-enable
 
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
