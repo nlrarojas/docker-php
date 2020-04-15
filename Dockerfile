@@ -22,8 +22,6 @@ RUN docker-php-source extract \
        g++ \
        autoconf \
        make \
-       rabbitmq-c \
-       rabbitmq-c-dev \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && docker-php-ext-configure bcmath \
@@ -77,10 +75,6 @@ RUN docker-php-ext-enable xdebug
 
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# RabbitMQ
-RUN pecl install amqp
-RUN docker-php-ext-enable amqp
 
 # Imagemagick.
 RUN apk add --no-cache imagemagick-dev
