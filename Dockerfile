@@ -49,7 +49,6 @@ RUN docker-php-ext-install bcmath \
     tokenizer \
     simplexml \
     dom \
-    mbstring \
     zip \
     iconv \
     xml \
