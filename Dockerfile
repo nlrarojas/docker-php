@@ -22,6 +22,7 @@ RUN docker-php-source extract \
        g++ \
        autoconf \
        make \
+       libonig-dev \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && docker-php-ext-configure bcmath \
@@ -31,7 +32,6 @@ RUN docker-php-source extract \
     && docker-php-ext-configure tokenizer \
     && docker-php-ext-configure simplexml \
     && docker-php-ext-configure dom \
-    && docker-php-ext-configure mbstring \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-configure iconv \
     && docker-php-ext-configure xml \
