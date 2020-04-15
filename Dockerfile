@@ -67,7 +67,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
 RUN pecl install xdebug-2.9.4
-RUN docker-php-ext-enable
+RUN docker-php-ext-enable xdebug
 
 # Xdebug settings.
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
