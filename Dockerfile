@@ -22,7 +22,6 @@ RUN docker-php-source extract \
        g++ \
        autoconf \
        make \
-       libonig-dev \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && docker-php-ext-configure bcmath \
