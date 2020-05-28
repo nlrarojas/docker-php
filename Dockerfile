@@ -37,6 +37,7 @@ RUN docker-php-source extract \
     && docker-php-ext-configure opcache \
     && docker-php-ext-configure pdo \
     && docker-php-ext-configure pdo_mysql \
+    && docker-php-ext-configure intl \
     && docker-php-ext-configure gd \
     && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && docker-php-ext-install -j${NPROC} gd \
@@ -54,7 +55,8 @@ RUN docker-php-ext-install bcmath \
     xml \
     opcache \
     pdo \
-    pdo_mysql
+    pdo_mysql \
+    intl
 RUN apk update \
     && apk add ca-certificates wget \
     && update-ca-certificates
@@ -88,6 +90,11 @@ ENV PATH=$PATH:$GOPATH/bin
 RUN go get github.com/mailhog/mhsendmail
 RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 COPY ./php.ini /usr/local/etc/php/conf.d/docker-php.ini
+
+# Install PHP Redis extension
+RUN pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis
 
 # Fix iconv lib
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv

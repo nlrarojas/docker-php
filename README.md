@@ -18,3 +18,5 @@ PHP Image containing some useful extensions.
 - xdebug
 - mhsendmail
 - blackfire
+- redis
+- intl
