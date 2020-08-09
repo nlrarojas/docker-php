@@ -110,11 +110,6 @@ RUN phpenmod \
     redis
     # xhprof
 
-# Install PHP Redis extension
-RUN pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis
-
 # Configure NGINX
 RUN cp -r /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 COPY ./conf/nginx/default-development /etc/nginx/sites-available/default
