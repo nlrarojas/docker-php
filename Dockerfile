@@ -70,6 +70,8 @@ RUN apt-get update && \
         openssh-server
 RUN dpkg-reconfigure openssh-server
 
+RUN apt-get install --yes php-redis
+
 # sSMTP
 # note php is configured to use ssmtp, which is configured to send to mail:1025,
 # which is standard configuration for a mailhog/mailhog image with hostname mail.
