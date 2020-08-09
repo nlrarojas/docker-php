@@ -99,6 +99,20 @@ RUN go get github.com/mailhog/mhsendmail
 RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 COPY ./php.ini /usr/local/etc/php/conf.d/docker-php.ini
 
+ENV \
+    PHANTOMJS_VERSION=2.1.7 \
+    CASPERJS_VERSION=1.1.4 \
+    SLIMERJS_VERSION=0.10.3 \
+    BACKSTOPJS_VERSION=3.5.16 \
+    # Workaround to fix phantomjs-prebuilt installation errors
+    # See https://github.com/Medium/phantomjs/issues/707
+    NPM_CONFIG_UNSAFE_PERM=true
+
+RUN sudo npm install -g --unsafe-perm=true --allow-root phantomjs@${PHANTOMJS_VERSION}
+RUN sudo npm install -g --unsafe-perm=true --allow-root casperjs@${CASPERJS_VERSION}
+RUN sudo npm install -g --unsafe-perm=true --allow-root slimerjs@${SLIMERJS_VERSION}
+RUN sudo npm install -g --unsafe-perm=true --allow-root backstopjs@${BACKSTOPJS_VERSION}
+
 # Install PHP Redis extension
 RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
