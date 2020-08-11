@@ -74,7 +74,6 @@ RUN apt-get install --yes php-redis
 
 RUN apt-get install --yes redis-server
 
-RUN systemctl start redis.service
 
 # sSMTP
 # note php is configured to use ssmtp, which is configured to send to mail:1025,
